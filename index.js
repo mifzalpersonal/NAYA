@@ -21,6 +21,9 @@ async function startBot() {
     logger: pino({ level: "error" }), // Ubah ke error biar tau kalau ada masalah fatal
     printQRInTerminal: false, // Kita handle manual di bawah
     browser: ["Windows", "Chrome", "11.0.0"], // Identitas bot
+    getMessage: async (key) => {
+      return { conversation: "hey" };
+    },
   });
 
   sock.ev.on("connection.update", (update) => {
@@ -61,7 +64,7 @@ async function startBot() {
     // fitur 1
     if (messageText.toLowerCase() === "ping") {
       await sock.sendPresenceUpdate("composing", sender);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       await sock.sendMessage(m.key.remoteJid, { text: "Pong!" });
     }
@@ -69,7 +72,7 @@ async function startBot() {
     // fitur 2
     else if (lowerText === ".jadwal") {
       await sock.sendPresenceUpdate("composing", sender);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const listJadwal = `*📅 JADWAL XI PPLG 1*
         1. Senin : PKK
@@ -84,7 +87,7 @@ async function startBot() {
     // fitur 3 masih experimental
     else if (lowerText.startsWith(".ingetin ")) {
       await sock.sendPresenceUpdate("composing", sender);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const parts = messageText.split(" ");
       const menit = parseInt(parts[1]);
@@ -118,16 +121,26 @@ async function startBot() {
     // fitur 5
     else if (messageText.toLowerCase() === "sayang?") {
       await sock.sendPresenceUpdate("composing", sender);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      await sock.sendMessage(m.key.remoteJid, { text: "iya kenapa?" });
+      await sock.sendMessage(m.key.remoteJid, { text: "hi" });
+    }
+
+    // fitur 5
+    else if (messageText.toLowerCase() === "bikinin kopi dong") {
+      await sock.sendPresenceUpdate("composing", sender);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      await sock.sendMessage(m.key.remoteJid, {
+        text: "mbung, jien we ditu olangan",
+      });
     }
 
     // fitur 6
     if (messageText.includes("tiktok.com")) {
       await sock.sendPresenceUpdate("composing", sender);
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       await sock.sendMessage(sender, {
         text: "Sabar ya, lagi diambilin videonya...",
@@ -167,7 +180,8 @@ async function startBot() {
     }
 
     // fitur 7?
-    // coming soon
+    // end
+
     // ini harusnya end
   });
 }
